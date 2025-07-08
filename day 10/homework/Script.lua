@@ -1,0 +1,155 @@
+--davaleba 2
+-- ??????? (event) ???? ?????, ??? ????? ???????, ????????? ??????? ?????? ?? ??????????? ??????.
+-- ???????? ???????????, ???? ????????? ???????? ??????? ?? ???????????, 
+-- ????????? ????? ???, ??????? ???? ?? ????????? ???????.
+-- ?? ??????????????, ?????? ???????? ?????????? ??????????????? ??
+-- ????????? ?????????? ???????? ??????? ????????? ????????? ?????????.
+--davaleba 3
+local part = Instance.new("Part")
+part.Size = Vector3.new(5,1,5)
+part.Position = Vector3.new(0,5,0)
+part.Anchored = true
+part.Color = Color3.new(0, 1, 0) -- ????????? ?????? ?????
+part.Parent = workspace
+
+part.Touched:Connect(function()
+	if part.Color ~= Color3.new(1, 0, 0) then
+		part.Color = Color3.new(1, 0, 0) -- ??????
+	end
+end)
+--davaleba 4
+local part = Instance.new("Part")
+part.Size = Vector3.new(2,2,2)
+part.Position = Vector3.new(5,5,0)
+part.Anchored = true
+part.Parent = workspace
+
+part.Touched:Connect(function()
+	part.Size = part.Size + Vector3.new(1, 1, 1)
+	if part.Size.X > 10 or part.Size.Y > 10 or part.Size.Z > 10 then
+		part:Destroy()
+	end
+end)
+--davaleba 5
+function printPlayerName(hit)
+	local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+	if player then
+		print("Player touched part: " .. player.Name)
+	end
+end
+
+local part = Instance.new("Part")
+part.Anchored = true
+part.Parent = workspace
+part.Touched:Connect(printPlayerName)
+--davaleba 6
+-- ?????? 1 - ???????
+local part1 = Instance.new("Part")
+part1.Position = Vector3.new(0, 5, 0)
+part1.Anchored = true
+part1.Parent = workspace
+part1.Touched:Connect(function()
+	part1.Size = part1.Size + Vector3.new(1,1,1)
+end)
+
+-- ?????? 2 - ?????
+local part2 = Instance.new("Part")
+part2.Position = Vector3.new(10, 5, 0)
+part2.Anchored = true
+part2.Parent = workspace
+part2.Touched:Connect(function()
+	part2:Destroy()
+end)
+
+-- ?????? 3 - ???????? ??? 5 ????????
+local part3 = Instance.new("Part")
+part3.Position = Vector3.new(20, 5, 0)
+part3.Anchored = true
+part3.Parent = workspace
+part3.Touched:Connect(function()
+	part3.Position = part3.Position + Vector3.new(5, 0, 0)
+end)
+--davaleba 7
+local part = Instance.new("Part")
+part.Anchored = true
+part.Position = Vector3.new(0,5,0)
+part.Parent = workspace
+
+local lastPlayer = nil
+
+part.Touched:Connect(function(hit)
+	local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+	if player then
+		if player == lastPlayer then
+			print(player.Name .. " touched part twice in a row!")
+		end
+		lastPlayer = player
+	else
+		lastPlayer = nil
+	end
+end)
+--davaleba 8
+local colors = {
+	Color3.new(0, 0, 1), -- ?????
+	Color3.new(0, 1, 0), -- ??????
+	Color3.new(1, 0, 0)  -- ??????
+}
+
+local part = Instance.new("Part")
+part.Anchored = true
+part.Position = Vector3.new(0, 5, 0)
+part.Color = colors[1]
+part.Parent = workspace
+
+local currentIndex = 1
+
+part.Touched:Connect(function()
+	currentIndex = currentIndex % #colors + 1
+	part.Color = colors[currentIndex]
+end)
+--davaleba 9
+local part = Instance.new("Part")
+part.Anchored = true
+part.Position = Vector3.new(0, 5, 0)
+part.Parent = workspace
+
+local canTouch = true
+
+part.Touched:Connect(function()
+	if not canTouch then return end
+	canTouch = false
+
+	print("Touched!")
+
+	-- 3 ????? ?????? ?????? ??????
+	wait(3)
+	canTouch = true
+end)
+--davaleba 10
+local part = Instance.new("Part")
+part.Anchored = true
+part.Position = Vector3.new(0, 5, 0)
+part.Parent = workspace
+
+part.Touched:Connect(function(hit)
+	local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+	if player and player.Name == "Player1" then
+		print("Player1 touched the part!")
+	end
+end)
+--davaleba 11
+local part = Instance.new("Part")
+part.Anchored = true
+part.Position = Vector3.new(0, 5, 0)
+part.Parent = workspace
+
+local touchedPlayers = {}
+
+part.Touched:Connect(function(hit)
+	local player = game.Players:GetPlayerFromCharacter(hit.Parent)
+	if player and not touchedPlayers[player.Name] then
+		touchedPlayers[player.Name] = true
+		print(player.Name .. " touched the part for the first time!")
+	end
+end)
+
